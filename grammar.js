@@ -174,6 +174,14 @@ module.exports = grammar({
 
     return_type_clause: $ => seq('->', $._expression),
 
+    // == Statements ==
+    _statement_list: $ => repeat($._statement),
+
+    let_statement: $ => seq('let', $._pattern, $.type_clause, "=", optional($._expression), ';'),
+    expression_statement: $ => seq($._expression, ';'),
+    return_statement: $ => seq('return', optional($._expression), ';'),
+
+    
   }
 });
 
