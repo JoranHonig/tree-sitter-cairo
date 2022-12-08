@@ -29,7 +29,7 @@ module.exports = grammar({
     ),
 
     // Path Expression
-    path_expression: $ => prec.left(2, seq( $._expression, '.', $._expression)),
+    path_expression: $ => repeat1($._path_segment),
     _path_segment: $ => choice(
       $.identifier,
       seq($.identifier, "::", $._generic_arguments)
