@@ -7,10 +7,9 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => $._source_element,
+    source_file: $ => repeat($._item),
 
     // == Expressions ==
-
     _expression: $ => choice(
       $.path_expression,
       $.literal_expression,
@@ -291,7 +290,7 @@ module.exports = grammar({
       $.path_expression,
       ';',
     ),
-      
+
     _generic_param: $ => $.identifier,
     _wrapped_generic_parameters: $ => seq('<', commaSep($._generic_param), '>'),
 
