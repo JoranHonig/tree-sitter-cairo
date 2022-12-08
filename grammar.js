@@ -169,7 +169,10 @@ module.exports = grammar({
     ),
     _pattern_enum: $ => seq($.path_expression, '(', commasep($._pattern), ')'),
 
-    
+    // == Type Clauses ==
+    type_clause: $ => seq(':', $._expression),
+
+    return_type_clause: $ => seq('->', $._expression),
 
   }
 });
