@@ -6,6 +6,13 @@ module.exports = grammar({
     /\s/
   ],
 
+  conflicts: $ => [
+    [$._expression, $.struct_ctor_call_expression],
+    [$._path_segment, $._pattern_identifier],
+    [$.parenthesized_expression, $.tuple_expression],
+    [$.function_call_expression, $._expression], // function calls start with expressions
+  ],
+
   rules: {
     source_file: $ => repeat($._item),
 
@@ -29,14 +36,14 @@ module.exports = grammar({
     ),
 
     // Path Expression
-    path_expression: $ => repeat1($._path_segment),
-    _path_segment: $ => choice(
+    path_expression: $ => prec.right(charSep1($._path_segment, "::")),
+    _path_segment: $ => prec.right(choice(
       $.identifier,
       seq($.identifier, "::", $._generic_arguments)
-    ),
+    )),
 
-    _generic_arguments: $ => seq('<', commaSep1($._expression), '>'),
-    _generic_argument_list: $ => commaSep1($._expression),
+    _generic_arguments: $ => prec(10, seq('<', commaSep1($._expression), '>')),
+    
     // Boolean expressions
     boolean_expression: $ => choice( 'true', 'false' ),
 
@@ -318,6 +325,13 @@ module.exports = grammar({
   }
 });
 
+function charSep(rule, char) {
+  return optional(charSep1(rule, char));
+}
+
+function charSep1 (rule, char) {
+  return seq(rule, repeat(seq(char, rule)));
+}
 
 function commaSep(rule) {
   return optional(commaSep1(rule));
