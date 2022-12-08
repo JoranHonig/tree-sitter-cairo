@@ -1,4 +1,6 @@
 ## 🌴 tree-sitter-cairo
+[![Node.js CI](https://github.com/JoranHonig/tree-sitter-cairo/actions/workflows/grammar_tests.yml/badge.svg)](https://github.com/JoranHonig/tree-sitter-cairo/actions/workflows/grammar_tests.yml)
+[![npm version](https://badge.fury.io/js/tree-sitter-cairo.svg)](https://badge.fury.io/js/tree-sitter-cairo)
 
 > 💡 this grammar is still in development, the structure of the generated AST is not stable
 
