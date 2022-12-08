@@ -138,7 +138,6 @@ func fib(a: felt, b: felt, n: felt) -> felt {
                   (identifier))
                 (literal_expression)))))))))
 
-
 ================================================================================
 fib_array.cairo
 ================================================================================
@@ -159,4 +158,95 @@ func fib_inner(a: felt, b: felt, remaining: felt, mut arr: Array::<felt>) -> Arr
 
 --------------------------------------------------------------------------------
 
-(source_file)
+(source_file
+  (comment)
+  (free_function
+    (identifier)
+    (function_signature
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (return_type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier)))))
+    (block_expression
+      (return_statement
+        (function_call_expression
+          (path_expression
+            (identifier))
+          (literal_expression)
+          (literal_expression)
+          (path_expression
+            (identifier))
+          (function_call_expression
+            (path_expression
+              (identifier)
+              (path_expression
+                (identifier))))))))
+  (free_function
+    (identifier)
+    (function_signature
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier))))
+      (return_type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier)))))
+    (block_expression
+      (return_statement
+        (if_expression
+          (binary_expression
+            (path_expression
+              (identifier))
+            (literal_expression))
+          (block_expression
+            (return_statement
+              (path_expression
+                (identifier))))))
+      (expression_statement
+        (function_call_expression
+          (path_expression
+            (identifier)
+            (path_expression
+              (identifier)))
+          (path_expression
+            (identifier))
+          (path_expression
+            (identifier))))
+      (return_statement
+        (function_call_expression
+          (path_expression
+            (identifier))
+          (path_expression
+            (identifier))
+          (binary_expression
+            (path_expression
+              (identifier))
+            (path_expression
+              (identifier)))
+          (binary_expression
+            (path_expression
+              (identifier))
+            (literal_expression))
+          (path_expression
+            (identifier)))))))
