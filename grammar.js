@@ -181,6 +181,21 @@ module.exports = grammar({
     expression_statement: $ => seq($._expression, ';'),
     return_statement: $ => seq('return', optional($._expression), ';'),
 
+    // == Functions ==
+    _param_name: $ => seq("_", $.identifier),
+    _param: $ => seq($._modifier_list, $._param_name, $.type_clause),
+
+    implicits_clause: $ => seq('implicits', '(', commaSep($.path_expression), ')'),
+    
+    function_signature: $ => seq(
+      '(',
+      commasep($._param),
+      ')',
+      optional($.return_type_clause),
+      optional($.implicits_clause),
+      optional($._no_panic_token),
+    ),
+
     
   }
 });
