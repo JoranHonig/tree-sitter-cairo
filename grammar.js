@@ -36,7 +36,6 @@ module.exports = grammar({
 
     _generic_arguments: $ => seq('<', commaSep1($._expression), '>'),
     _generic_argument_list: $ => commaSep1($._expression),
-
     // Boolean expressions
     boolean_expression: $ => choice( 'true', 'false' ),
 
@@ -195,7 +194,7 @@ module.exports = grammar({
       repeat($.attribute),
       'fn',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       $.function_signature,
       $.block_expression,
     ),
@@ -205,7 +204,7 @@ module.exports = grammar({
       'extern',
       'fn',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       $.function_signature,
       $.block_expression,
     ),
@@ -214,7 +213,7 @@ module.exports = grammar({
       'extern',
       'type',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       ';',
     ),
 
@@ -222,7 +221,7 @@ module.exports = grammar({
       repeat($.attribute),
       'trait',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       choice(
         $.trait_body,
         ';',
@@ -243,7 +242,7 @@ module.exports = grammar({
       repeat($.attribute),
       'fn',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       $.function_signature,
       ';',
     ),
@@ -252,7 +251,7 @@ module.exports = grammar({
       repeat($.attribute),
       'impl',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       "of",
       $.path_expression,
       choice(
@@ -270,7 +269,7 @@ module.exports = grammar({
       repeat($.attribute),
       'struct',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       '{',
       repeat($.struct_member),
       '}',
@@ -280,7 +279,7 @@ module.exports = grammar({
       repeat($.attribute),
       'enum',
       $.identifier,
-      $.option_wrapped_generic_parameters,
+      option($._wrapped_generic_parameters),
       '{',
       repeat($.enum_member),
       '}',
@@ -292,6 +291,9 @@ module.exports = grammar({
       $.path_expression,
       ';',
     ),
+      
+    _generic_param: $ => $.identifier,
+    _wrapped_generic_parameters: $ => seq('<', commaSep($._generic_param), '>'),
 
   }
 });
