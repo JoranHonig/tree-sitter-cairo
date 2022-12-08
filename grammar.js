@@ -125,15 +125,6 @@ module.exports = grammar({
 
     match_arm: $ => seq($._pattern, '=>', $._expression),
 
-    _pattern: $ => choice(
-      "_",
-      $.literal,
-      $.identifier,
-      $.struct,
-      $.tuple,
-      $.enum,
-      $.path_expression,
-    ),
       
     // If expressions
     if_expression: $ => seq('if', $._expression, $.block_expression, optional(seq('else', $.block_expression))),
@@ -144,6 +135,42 @@ module.exports = grammar({
     error_propagation_expression: $ => seq($._expression, '?'),
 
     comment: $ => token(seq('//', /.*/)),
+
+
+    // == Patterns == (used by match arms)
+    _pattern: $ => choice(
+      "_",
+      $._pattern_literal,
+      $._pattern_identifier,
+      $._pattern_struct,
+      $._pattern_tuple,
+      $._pattern_enum,
+      $.path_expression,
+    ),
+
+    _pattern_identifier: $ => seq(optional($._modifier_list), $.identifier),
+    _modifier_list: $ => commaSep1($._modifier),
+    _modifier: $ => choice(
+      'mut',
+      '&',
+    ),
+
+    _pattern_struct: $ => seq($.path_expression, '{', $._struct_pattern_list, '}'),
+    _struct_pattern_list: $ => commaSep($._struct_pattern),
+    _struct_pattern: $ => seq(
+      $.identifier,
+      "with",
+      "..",
+    ),
+    _struct_patter_with: $ => seq(
+      $.identifier,
+      ':',
+      $._pattern,
+    ),
+    _pattern_enum: $ => seq($.path_expression, '(', commasep($._pattern), ')'),
+
+    
+
   }
 });
 
