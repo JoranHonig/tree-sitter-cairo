@@ -1,0 +1,79 @@
+================================================================================
+corelib_usage.cairo
+================================================================================
+
+impl MyCopy of Copy::<Option::<(felt, felt)>>;
+
+func foo(x: Option::<(felt, felt)>) -> Option::<felt> {
+    let y = x;
+    match x {
+        Option::Some(x) => {
+            let (x, y) = x;
+            Option::<felt>::Some(x)
+        },
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (impl
+    (identifier)
+    (path_expression
+      (identifier)
+      (path_expression
+        (identifier)
+        (tuple_expression
+          (path_expression
+            (identifier))
+          (path_expression
+            (identifier))))))
+  (free_function
+    (identifier)
+    (function_signature
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)
+          (tuple_expression
+            (path_expression
+              (identifier))
+            (path_expression
+              (identifier)))))
+      (return_type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier)))))
+    (block_expression
+      (let_statement
+        (path_expression
+          (identifier))
+        (path_expression
+          (identifier)))
+      (expression_statement
+        (match_expression
+          (path_expression
+            (identifier))
+          (match_arm
+            (path_expression
+              (identifier)
+              (identifier))
+            (path_expression
+              (identifier))
+            (block_expression
+              (let_statement
+                (path_expression
+                  (identifier))
+                (identifier)
+                (path_expression
+                  (identifier)))
+              (return_statement
+                (function_call_expression
+                  (path_expression
+                    (identifier)
+                    (path_expression
+                      (identifier))
+                    (identifier))
+                  (path_expression
+                    (identifier)))))))))))

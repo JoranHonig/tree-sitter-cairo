@@ -11,6 +11,9 @@ module.exports = grammar({
     [$._path_segment, $._pattern_identifier],
     [$.parenthesized_expression, $.tuple_expression],
     [$.function_call_expression, $._expression], // function calls start with expressions
+    [$._expression, $.expression_statement], // matches don't need a semicolon but are still expressions
+    [$._path_segment], // path segments can be identifiers or identifiers with generic arguments
+    [$.return_statement, $.expression_statement],
   ],
 
   rules: {
@@ -37,10 +40,10 @@ module.exports = grammar({
 
     // Path Expression
     path_expression: $ => prec.right(charSep1($._path_segment, "::")),
-    _path_segment: $ => prec.right(choice(
+    _path_segment: $ => choice(
       $.identifier,
       seq($.identifier, "::", $._generic_arguments)
-    )),
+    ),
 
     _generic_arguments: $ => prec(10, seq('<', commaSep1($._expression), '>')),
     
@@ -104,7 +107,7 @@ module.exports = grammar({
     block_expression: $ => seq('{', repeat($._statement), '}'),
 
     // Match expressions
-    match_expression: $ => seq('match', $._expression, '{', repeat($.match_arm), '}'),
+    match_expression: $ => seq('match', $._expression, '{', seq($.match_arm, repeat(seq(',', $.match_arm)), optional(',')) , '}'),
 
     match_arm: $ => seq($._pattern, '=>', $._expression),
 
@@ -170,13 +173,16 @@ module.exports = grammar({
       $.return_statement,
     ),
 
-    let_statement: $ => seq('let', $._pattern, $.type_clause, "=", optional($._expression), ';'),
-    expression_statement: $ => seq($._expression, ';'),
-    return_statement: $ => seq('return', optional($._expression), ';'),
+    let_statement: $ => seq('let', $._pattern, optional($.type_clause), "=", optional($._expression), ';'),
+    expression_statement: $ => choice($.match_expression, seq($._expression, ';')),
+    return_statement: $ => choice(
+      seq('return', optional($._expression), ';'),
+      $._expression,
+    ),
 
     // == Functions ==
-    _param_name: $ => seq("_", $.identifier),
-    _param: $ => seq($._modifier_list, $._param_name, $.type_clause),
+    _param_name: $ => choice("_", $.identifier),
+    _param: $ => seq(optional($._modifier_list), $._param_name, $.type_clause),
 
     implicits_clause: $ => seq('implicits', '(', commaSep($.path_expression), ')'),
     
@@ -219,7 +225,7 @@ module.exports = grammar({
 
     free_function: $ => seq(
       repeat($.attribute),
-      'fn',
+      'func',
       $.identifier,
       optional($._wrapped_generic_parameters),
       $.function_signature,
@@ -229,7 +235,7 @@ module.exports = grammar({
     extern_function: $ => seq(
       repeat($.attribute),
       'extern',
-      'fn',
+      'func',
       $.identifier,
       optional($._wrapped_generic_parameters),
       $.function_signature,
@@ -267,7 +273,7 @@ module.exports = grammar({
 
     _trait_function: $ => seq(
       repeat($.attribute),
-      'fn',
+      'func',
       $.identifier,
       optional($._wrapped_generic_parameters),
       $.function_signature,
