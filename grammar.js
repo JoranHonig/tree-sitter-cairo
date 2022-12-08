@@ -196,7 +196,127 @@ module.exports = grammar({
       optional($._no_panic_token),
     ),
 
-    
+    // == Struct Members ==
+    struct_member: $ => seq($.identifier, $.type_clause),
+
+    // == Items ==
+    _item: $ => choice(
+      $.module,
+      $.use,
+      $.free_function,
+      $.extern_function,
+      $.extern_type,
+      $.trait,
+      $.impl,
+      $.struct,
+      $.enum,
+    ),
+
+    attribute_arguments: $ => seq('(', commasep($._expression), ')'),
+    attribute: $ => seq('#', '[', $.identifier, $.attribute_arguments, ']'),
+
+    free_function: $ => seq(
+      repeat($.attribute),
+      'fn',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      $.function_signature,
+      $.block_expression,
+    ),
+
+    extern_function: $ => seq(
+      repeat($.attribute),
+      'extern',
+      'fn',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      $.function_signature,
+      $.block_expression,
+    ),
+
+    extern_type: $ => seq(
+      'extern',
+      'type',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      ';',
+    ),
+
+    trait: $ => seq(
+      repeat($.attribute),
+      'trait',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      choice(
+        $.trait_body,
+        ';',
+      )
+    ),
+
+    trait_body: $ => seq(
+      '{',
+      repeat($._trait_item),
+      '}',
+    ),
+
+    _trait_item: $ => choice(
+      $._trait_function,
+    ),
+
+    _trait_function: $ => seq(
+      repeat($.attribute),
+      'fn',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      $.function_signature,
+      ';',
+    ),
+
+    impl: $ => seq(
+      repeat($.attribute),
+      'impl',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      "of",
+      $.path_expression,
+      choice(
+        $.impl_body,
+        ';',
+      ),
+    ),
+    impl_body: $ => seq(
+      '{',
+      repeat($._item),
+      '}',
+    ),
+
+    struct: $ => seq(
+      repeat($.attribute),
+      'struct',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      '{',
+      repeat($.struct_member),
+      '}',
+    ),
+
+    enum: $ => seq(
+      repeat($.attribute),
+      'enum',
+      $.identifier,
+      $.option_wrapped_generic_parameters,
+      '{',
+      repeat($.enum_member),
+      '}',
+    ),
+
+    use: $ => seq(
+      repeat($.attribute),
+      'use',
+      $.path_expression,
+      ';',
+    ),
+
   }
 });
 
