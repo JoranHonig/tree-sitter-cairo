@@ -9,6 +9,8 @@ module.exports = grammar({
   rules: {
     source_file: $ => repeat($._item),
 
+    identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
+
     // == Expressions ==
     _expression: $ => choice(
       $.path_expression,
@@ -39,7 +41,7 @@ module.exports = grammar({
     boolean_expression: $ => choice( 'true', 'false' ),
 
     // Literal expressions
-    // literal_expression: $ => 
+    literal_expression: $ => 'placeholder',
 
     // Parenthesized expression
     parenthesized_expression: $ => seq('(', $._expression, ')'),
@@ -77,10 +79,10 @@ module.exports = grammar({
     tuple_expression: $ => seq('(', commaSep1($._expression), ')'),
 
     // Function call expressions
-    function_call_expression: $ => seq($.path_expression, '(', commasep($._expression), ')'),
+    function_call_expression: $ => seq($.path_expression, '(', commaSep($._expression), ')'),
 
     // Struct ctor call expressions
-    struct_ctor_call_expression: $ => seq($.path_expression, '{', $._struct_argument_list, '}'),
+    struct_ctor_call_expression: $ => seq($.path_expression, '{', optional($._struct_argument_list), '}'),
 
     _struct_argument_expression: $ => seq(':', $._expression),
     _single_struct_argument: $ => seq($.identifier, $._struct_argument_expression),
@@ -89,7 +91,7 @@ module.exports = grammar({
       $._single_struct_argument,
       $._struct_argument_tail,
     ),
-    _struct_argument_list: $ => commaSep($._struct_argument),
+    _struct_argument_list: $ => commaSep1($._struct_argument),
 
     // Block expressions
     block_expression: $ => seq('{', repeat($._statement), '}'),
@@ -122,6 +124,7 @@ module.exports = grammar({
       $.path_expression,
     ),
 
+    _pattern_literal: $ => 'dunno',
     _pattern_identifier: $ => seq(optional($._modifier_list), $.identifier),
     _modifier_list: $ => commaSep1($._modifier),
     _modifier: $ => choice(
@@ -129,8 +132,8 @@ module.exports = grammar({
       '&',
     ),
 
-    _pattern_struct: $ => seq($.path_expression, '{', $._struct_pattern_list, '}'),
-    _struct_pattern_list: $ => commaSep($._struct_pattern),
+    _pattern_struct: $ => seq($.path_expression, '{', optional($._struct_pattern_list), '}'),
+    _struct_pattern_list: $ => commaSep1($._struct_pattern),
     _struct_pattern: $ => seq(
       $.identifier,
       "with",
@@ -141,7 +144,10 @@ module.exports = grammar({
       ':',
       $._pattern,
     ),
-    _pattern_enum: $ => seq($.path_expression, '(', commasep($._pattern), ')'),
+
+    _pattern_tuple: $ => seq('(', commaSep($._pattern), ')'),
+
+    _pattern_enum: $ => seq($.path_expression, '(', commaSep($._pattern), ')'),
 
     // == Type Clauses ==
     type_clause: $ => seq(':', $._expression),
@@ -150,6 +156,12 @@ module.exports = grammar({
 
     // == Statements ==
     _statement_list: $ => repeat($._statement),
+
+    _statement : $ => choice(
+      $.let_statement,
+      $.expression_statement,
+      $.return_statement,
+    ),
 
     let_statement: $ => seq('let', $._pattern, $.type_clause, "=", optional($._expression), ';'),
     expression_statement: $ => seq($._expression, ';'),
@@ -163,12 +175,14 @@ module.exports = grammar({
     
     function_signature: $ => seq(
       '(',
-      commasep($._param),
+      commaSep($._param),
       ')',
       optional($.return_type_clause),
       optional($.implicits_clause),
       optional($._no_panic_token),
     ),
+
+    _no_panic_token: $ => 'no_panic', // TODO: who knows?
 
     // == Struct Members ==
     struct_member: $ => seq($.identifier, $.type_clause),
@@ -186,14 +200,21 @@ module.exports = grammar({
       $.enum,
     ),
 
-    attribute_arguments: $ => seq('(', commasep($._expression), ')'),
+    module: $ => seq(
+      repeat($.attribute),
+      'mod',
+      $.identifier,
+      ';',
+    ),
+
+    attribute_arguments: $ => seq('(', commaSep($._expression), ')'),
     attribute: $ => seq('#', '[', $.identifier, $.attribute_arguments, ']'),
 
     free_function: $ => seq(
       repeat($.attribute),
       'fn',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       $.function_signature,
       $.block_expression,
     ),
@@ -203,7 +224,7 @@ module.exports = grammar({
       'extern',
       'fn',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       $.function_signature,
       $.block_expression,
     ),
@@ -212,7 +233,7 @@ module.exports = grammar({
       'extern',
       'type',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       ';',
     ),
 
@@ -220,7 +241,7 @@ module.exports = grammar({
       repeat($.attribute),
       'trait',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       choice(
         $.trait_body,
         ';',
@@ -241,7 +262,7 @@ module.exports = grammar({
       repeat($.attribute),
       'fn',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       $.function_signature,
       ';',
     ),
@@ -250,7 +271,7 @@ module.exports = grammar({
       repeat($.attribute),
       'impl',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       "of",
       $.path_expression,
       choice(
@@ -268,7 +289,7 @@ module.exports = grammar({
       repeat($.attribute),
       'struct',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       '{',
       repeat($.struct_member),
       '}',
@@ -278,9 +299,9 @@ module.exports = grammar({
       repeat($.attribute),
       'enum',
       $.identifier,
-      option($._wrapped_generic_parameters),
+      optional($._wrapped_generic_parameters),
       '{',
-      repeat($.enum_member),
+      repeat($.struct_member), // todo: make special node for enum members
       '}',
     ),
 
@@ -297,10 +318,11 @@ module.exports = grammar({
   }
 });
 
-function commaSep1 (rule) {
-  return seq(rule, repeat(seq(',', rule)));
+
+function commaSep(rule) {
+  return optional(commaSep1(rule));
 }
 
-function commasep(rule) {
-  return optional(commaSep1(rule));
+function commaSep1 (rule) {
+  return seq(rule, repeat(seq(',', rule)));
 }
