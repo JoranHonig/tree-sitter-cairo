@@ -9,30 +9,6 @@ module.exports = grammar({
   rules: {
     source_file: $ => $._source_element,
 
-    _source_element: $ => choice(
-      $._declaration,
-      $._definition,
-      $._statement,
-      $._expression,
-    ),
-
-    _declaration: $ => choice(
-      $.import_declaration,
-      $.builtin_declaration
-    ),
-
-    _definition: $ => choice(
-      $.funtion_definition,
-      $.struct_definition,
-      $.namespace_definition,
-    ),
-
-    _statement: $ => choice(
-      $.let_statement,
-      $._expression,
-      $.return_statement,
-    ),
-
     // == Expressions ==
 
     _expression: $ => choice(
