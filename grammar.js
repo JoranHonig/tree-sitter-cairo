@@ -106,7 +106,16 @@ module.exports = grammar({
     function_call_expression: $ => seq($.path_expression, '(', commasep($._expression), ')'),
 
     // Struct ctor call expressions
-    struct_ctor_call_expression: $ => seq($.path_expression, '{', commasep($._expression), '}'),
+    struct_ctor_call_expression: $ => seq($.path_expression, '{', $._struct_argument_list, '}'),
+
+    _struct_argument_expression: $ => seq(':', $._expression),
+    _single_struct_argument: $ => seq($.identifier, $._struct_argument_expression),
+    _struct_argument_tail: $ => seq('..', $._expression),
+    _struct_argument: $ => choice(
+      $._single_struct_argument,
+      $._struct_argument_tail,
+    ),
+    _struct_argument_list: $ => commaSep($._struct_argument),
 
     // Block expressions
     block_expression: $ => seq('{', repeat($._statement), '}'),
@@ -133,7 +142,7 @@ module.exports = grammar({
 
     // Error propagation expressions
     error_propagation_expression: $ => seq($._expression, '?'),
-    
+
     comment: $ => token(seq('//', /.*/)),
   }
 });
