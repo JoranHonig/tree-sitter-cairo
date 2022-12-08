@@ -51,7 +51,9 @@ module.exports = grammar({
     boolean_expression: $ => choice( 'true', 'false' ),
 
     // Literal expressions
-    literal_expression: $ => 'placeholder',
+    literal_expression: $ => choice(
+      /[0-9]+/,
+    ),
 
     // Parenthesized expression
     parenthesized_expression: $ => seq('(', $._expression, ')'),
@@ -134,7 +136,7 @@ module.exports = grammar({
       $.path_expression,
     ),
 
-    _pattern_literal: $ => 'dunno',
+    _pattern_literal: $ => $.literal_expression,
     _pattern_identifier: $ => seq(optional($._modifier_list), $.identifier),
     _modifier_list: $ => commaSep1($._modifier),
     _modifier: $ => choice(

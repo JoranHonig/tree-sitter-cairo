@@ -77,3 +77,63 @@ func foo(x: Option::<(felt, felt)>) -> Option::<felt> {
                     (identifier))
                   (path_expression
                     (identifier)))))))))))
+
+================================================================================
+fib.cairo
+================================================================================
+
+// Calculates fib...
+func fib(a: felt, b: felt, n: felt) -> felt {
+    match n {
+        0 => a,
+        _ => fib(b, a + b, n - 1),
+    }
+}
+
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (free_function
+    (identifier)
+    (function_signature
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)))
+      (return_type_clause
+        (path_expression
+          (identifier))))
+    (block_expression
+      (expression_statement
+        (match_expression
+          (path_expression
+            (identifier))
+          (match_arm
+            (literal_expression)
+            (path_expression
+              (identifier)))
+          (match_arm
+            (function_call_expression
+              (path_expression
+                (identifier))
+              (path_expression
+                (identifier))
+              (binary_expression
+                (path_expression
+                  (identifier))
+                (path_expression
+                  (identifier)))
+              (binary_expression
+                (path_expression
+                  (identifier))
+                (literal_expression)))))))))
