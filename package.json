@@ -1,8 +1,8 @@
 {
   "name": "tree-sitter-cairo",
-  "version": "0.0.0",
-  "description": "A tree-sitter grammar for cairo",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A tree-sitter grammar for cairo 1.0",
+  "main": "bindings/node",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
