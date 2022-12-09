@@ -224,9 +224,9 @@ module.exports = grammar({
     ),
 
     // == Type Clauses ==
-    type_clause: $ => prec(1, seq(':', field("type", $._expression))),
+    _type_clause: $ => prec(1, seq(':', field("type", $._expression))),
 
-    return_type_clause: $ => seq('->', field("type", $._expression)),
+    _return__type_clause: $ => seq('->', field("return_type", $._expression)),
 
     // == Statements ==
     _statement_list: $ => repeat($._statement),
@@ -237,32 +237,50 @@ module.exports = grammar({
       $.return_statement,
     ),
 
-    let_statement: $ => seq('let', $._pattern, optional($.type_clause), optional(seq('=', $._expression)), ';'),
+    let_statement: $ => seq(
+      'let',
+      field("pattern", $._pattern),
+      optional($._type_clause), 
+      optional(seq('=', field("value", $._expression))), 
+      ';'
+    ),
+
     expression_statement: $ => choice($.match_expression, seq($._expression, ';')),
+
     return_statement: $ => prec(-1, choice(
-      seq('return', optional($._expression), ';'),
-      $._expression,
+      seq('return', field("value", optional($._expression)), ';'),
+      field("value", $._expression),
     )),
 
     // == Functions ==
     _param_name: $ => choice("_", $.identifier),
-    _param: $ => seq(optional($._modifier_list), $._param_name, $.type_clause),
+    _param: $ => seq(optional($._modifier_list), field("name", $._param_name), $._type_clause),
 
-    implicits_clause: $ => seq('implicits', '(', commaSep(seq($.identifier, $.type_clause)), ')'),
-    
+    _implicits_clause: $ => seq(
+      'implicits', 
+      '(', 
+      commaSep(field("implicit", $.implicit)), 
+      ')'
+    ),
+
+    implicit: $ => seq(
+      field("name", $.identifier),
+      $._type_clause
+    ),
+
     function_signature: $ => seq(
       '(',
-      commaSep($._param),
+      commaSep(field("parameter", $._param)),
       ')',
-      optional($.return_type_clause),
-      optional($.implicits_clause),
+      optional($._return__type_clause),
+      optional($._implicits_clause),
       optional($._no_panic_token),
     ),
 
     _no_panic_token: $ => 'no_panic', // TODO: who knows?
 
     // == Struct Members ==
-    struct_member: $ => seq($.identifier, $.type_clause),
+    struct_member: $ => seq(field("name", $.identifier), $._type_clause),
 
     // == Items ==
     _item: $ => choice(
