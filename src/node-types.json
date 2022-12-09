@@ -189,6 +189,10 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
           "type": "struct_member",
           "named": true
         }
@@ -344,6 +348,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
         }
       ]
     }
@@ -358,6 +366,10 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         }
       ]
@@ -385,6 +397,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         }
       ]
@@ -564,6 +580,10 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
           "type": "path_expression",
           "named": true
         }
@@ -626,7 +646,11 @@
       "required": false,
       "types": [
         {
-          "type": "path_expression",
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_clause",
           "named": true
         }
       ]
@@ -1181,6 +1205,10 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
           "type": "struct_member",
           "named": true
         }
@@ -1290,6 +1318,10 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
           "type": "trait_body",
           "named": true
         }
@@ -1315,6 +1347,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
         }
       ]
     }
@@ -1325,7 +1361,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "binary_expression",

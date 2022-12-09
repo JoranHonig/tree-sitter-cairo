@@ -14,6 +14,7 @@ module.exports = grammar({
     [$._expression, $.expression_statement], // matches don't need a semicolon but are still expressions
     [$._path_segment], // path segments can be identifiers or identifiers with generic arguments
     [$.return_statement, $.expression_statement],
+    [$._generic_arguments, $.binary_expression]
   ],
 
   rules: {
@@ -45,7 +46,7 @@ module.exports = grammar({
       seq($.identifier, "::", $._generic_arguments)
     ),
 
-    _generic_arguments: $ => prec(10, seq('<', commaSep1($._expression), '>')),
+    _generic_arguments: $ => prec.right(10, seq('<', commaSep1($._expression), '>')),
     
     // Boolean expressions
     boolean_expression: $ => choice( 'true', 'false' ),
@@ -59,14 +60,14 @@ module.exports = grammar({
     parenthesized_expression: $ => seq('(', $._expression, ')'),
 
     // Unary expressions
-    unary_expression: $ => prec.left(1, seq($._unary_operator, $._expression)),
+    unary_expression: $ => prec.left(seq($._unary_operator, $._expression)),
     _unary_operator: $ => choice(
       '!',
       '-',
     ),
 
     // Binary expressions
-    binary_expression: $ => prec.right(1, seq($._expression, $._binary_operator, $._expression)),
+    binary_expression: $ => prec.left(seq($._expression, $._binary_operator, $._expression)),
 
     _binary_operator: $ => choice(
       '.',
@@ -88,10 +89,11 @@ module.exports = grammar({
     ),
 
     // Tuple expressions
-    tuple_expression: $ => seq('(', commaSep1($._expression), ')'),
+    tuple_expression: $ => seq('(', commaSep($._expression), ')'),
 
     // Function call expressions
-    function_call_expression: $ => seq($.path_expression, '(', commaSep($._expression), ')'),
+    _arguments: $ => seq($._expression, repeat(seq(',', $._expression)), optional(',')),
+    function_call_expression: $ => seq($.path_expression, '(', optional($._arguments), ')'),
 
     // Struct ctor call expressions
     struct_ctor_call_expression: $ => seq($.path_expression, '{', optional($._struct_argument_list), '}'),
@@ -115,7 +117,13 @@ module.exports = grammar({
 
       
     // If expressions
-    if_expression: $ => seq('if', $._expression, $.block_expression, optional(seq('else', $.block_expression))),
+    if_expression: $ => seq(
+      'if', 
+      $._expression, 
+      $.block_expression, 
+      optional(seq('else', 'if', $._expression, $.block_expression,)), 
+      optional(seq('else', $.block_expression))
+    ),
       
     // TODO: block or if
 
@@ -162,7 +170,7 @@ module.exports = grammar({
     _pattern_enum: $ => seq($.path_expression, '(', commaSep($._pattern), ')'),
 
     // == Type Clauses ==
-    type_clause: $ => seq(':', $._expression),
+    type_clause: $ => prec(1, seq(':', $._expression)),
 
     return_type_clause: $ => seq('->', $._expression),
 
@@ -175,18 +183,18 @@ module.exports = grammar({
       $.return_statement,
     ),
 
-    let_statement: $ => seq('let', $._pattern, optional($.type_clause), "=", optional($._expression), ';'),
+    let_statement: $ => seq('let', $._pattern, optional($.type_clause), optional(seq('=', $._expression)), ';'),
     expression_statement: $ => choice($.match_expression, seq($._expression, ';')),
-    return_statement: $ => choice(
+    return_statement: $ => prec(-1, choice(
       seq('return', optional($._expression), ';'),
       $._expression,
-    ),
+    )),
 
     // == Functions ==
     _param_name: $ => choice("_", $.identifier),
     _param: $ => seq(optional($._modifier_list), $._param_name, $.type_clause),
 
-    implicits_clause: $ => seq('implicits', '(', commaSep($.path_expression), ')'),
+    implicits_clause: $ => seq('implicits', '(', commaSep(seq($.identifier, $.type_clause)), ')'),
     
     function_signature: $ => seq(
       '(',
@@ -306,7 +314,8 @@ module.exports = grammar({
       $.identifier,
       optional($._wrapped_generic_parameters),
       '{',
-      repeat($.struct_member),
+      commaSep1($.struct_member),
+      optional(','),
       '}',
     ),
 
@@ -316,7 +325,8 @@ module.exports = grammar({
       $.identifier,
       optional($._wrapped_generic_parameters),
       '{',
-      repeat($.struct_member), // todo: make special node for enum members
+      commaSep1($.struct_member), // todo: make special node for enum members
+      optional(','),
       '}',
     ),
 
@@ -327,7 +337,7 @@ module.exports = grammar({
       ';',
     ),
 
-    _generic_param: $ => $.identifier,
+    _generic_param: $ => choice($.parenthesized_expression, $.identifier),
     _wrapped_generic_parameters: $ => seq('<', commaSep($._generic_param), '>'),
 
   }
