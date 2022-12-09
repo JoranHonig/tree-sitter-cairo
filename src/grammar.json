@@ -1500,7 +1500,7 @@
         }
       ]
     },
-    "function_signature": {
+    "_function_signature": {
       "type": "SEQ",
       "members": [
         {
@@ -1594,7 +1594,7 @@
       "type": "STRING",
       "value": "no_panic"
     },
-    "struct_member": {
+    "_struct_member": {
       "type": "SEQ",
       "members": [
         {
@@ -1762,28 +1762,40 @@
           "value": "func"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_wrapped_generic_parameters"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "FIELD",
+          "name": "type_parameters",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_wrapped_generic_parameters"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
         },
         {
           "type": "SYMBOL",
-          "name": "function_signature"
+          "name": "_function_signature"
         },
         {
-          "type": "SYMBOL",
-          "name": "block_expression"
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "block_expression"
+          }
         }
       ]
     },
@@ -1823,7 +1835,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_signature"
+          "name": "_function_signature"
         },
         {
           "type": "SYMBOL",
@@ -1843,8 +1855,12 @@
           "value": "type"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -1879,8 +1895,12 @@
           "value": "trait"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -1898,8 +1918,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "trait_body"
+              "type": "FIELD",
+              "name": "body",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_trait_body"
+              }
             },
             {
               "type": "STRING",
@@ -1909,7 +1933,7 @@
         }
       ]
     },
-    "trait_body": {
+    "_trait_body": {
       "type": "SEQ",
       "members": [
         {
@@ -1953,8 +1977,12 @@
           "value": "func"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -1970,7 +1998,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_signature"
+          "name": "_function_signature"
         },
         {
           "type": "STRING",
@@ -1993,8 +2021,12 @@
           "value": "impl"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -2013,15 +2045,23 @@
           "value": "of"
         },
         {
-          "type": "SYMBOL",
-          "name": "path_expression"
+          "type": "FIELD",
+          "name": "trait",
+          "content": {
+            "type": "SYMBOL",
+            "name": "path_expression"
+          }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "impl_body"
+              "type": "FIELD",
+              "name": "body",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_impl_body"
+              }
             },
             {
               "type": "STRING",
@@ -2031,7 +2071,7 @@
         }
       ]
     },
-    "impl_body": {
+    "_impl_body": {
       "type": "SEQ",
       "members": [
         {
@@ -2066,8 +2106,12 @@
           "value": "struct"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -2089,8 +2133,12 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "struct_member"
+              "type": "FIELD",
+              "name": "member",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_struct_member"
+              }
             },
             {
               "type": "REPEAT",
@@ -2102,8 +2150,12 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "struct_member"
+                    "type": "FIELD",
+                    "name": "member",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_struct_member"
+                    }
                   }
                 ]
               }
@@ -2143,8 +2195,12 @@
           "value": "enum"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -2166,8 +2222,12 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "struct_member"
+              "type": "FIELD",
+              "name": "member",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_struct_member"
+              }
             },
             {
               "type": "REPEAT",
@@ -2179,8 +2239,12 @@
                     "value": ","
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "struct_member"
+                    "type": "FIELD",
+                    "name": "member",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_struct_member"
+                    }
                   }
                 ]
               }
@@ -2220,8 +2284,12 @@
           "value": "use"
         },
         {
-          "type": "SYMBOL",
-          "name": "path_expression"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "path_expression"
+          }
         },
         {
           "type": "STRING",
@@ -2229,7 +2297,7 @@
         }
       ]
     },
-    "_generic_param": {
+    "generic_param": {
       "type": "CHOICE",
       "members": [
         {
@@ -2257,7 +2325,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_generic_param"
+                  "name": "generic_param"
                 },
                 {
                   "type": "REPEAT",
@@ -2270,7 +2338,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "_generic_param"
+                        "name": "generic_param"
                       }
                     ]
                   }

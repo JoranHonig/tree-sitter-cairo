@@ -268,7 +268,7 @@ module.exports = grammar({
       $._type_clause
     ),
 
-    function_signature: $ => seq(
+    _function_signature: $ => seq(
       '(',
       commaSep(field("parameter", $._param)),
       ')',
@@ -280,7 +280,7 @@ module.exports = grammar({
     _no_panic_token: $ => 'no_panic', // TODO: who knows?
 
     // == Struct Members ==
-    struct_member: $ => seq(field("name", $.identifier), $._type_clause),
+    _struct_member: $ => seq(field("name", $.identifier), $._type_clause),
 
     // == Items ==
     _item: $ => choice(
@@ -308,10 +308,10 @@ module.exports = grammar({
     free_function: $ => seq(
       repeat($.attribute),
       'func',
-      $.identifier,
-      optional($._wrapped_generic_parameters),
-      $.function_signature,
-      $.block_expression,
+      field("name", $.identifier),
+      field("type_parameters", optional($._wrapped_generic_parameters)),
+      $._function_signature,
+      field("body", $.block_expression),
     ),
 
     extern_function: $ => seq(
@@ -320,14 +320,14 @@ module.exports = grammar({
       'func',
       $.identifier,
       optional($._wrapped_generic_parameters),
-      $.function_signature,
+      $._function_signature,
       $.block_expression,
     ),
 
     extern_type: $ => seq(
       'extern',
       'type',
-      $.identifier,
+      field("name", $.identifier),
       optional($._wrapped_generic_parameters),
       ';',
     ),
@@ -335,15 +335,15 @@ module.exports = grammar({
     trait: $ => seq(
       repeat($.attribute),
       'trait',
-      $.identifier,
+      field("name", $.identifier),
       optional($._wrapped_generic_parameters),
       choice(
-        $.trait_body,
+        field("body", $._trait_body),
         ';',
       )
     ),
 
-    trait_body: $ => seq(
+    _trait_body: $ => seq(
       '{',
       repeat($._trait_item),
       '}',
@@ -356,25 +356,25 @@ module.exports = grammar({
     _trait_function: $ => seq(
       repeat($.attribute),
       'func',
-      $.identifier,
+      field("name", $.identifier),
       optional($._wrapped_generic_parameters),
-      $.function_signature,
+      $._function_signature,
       ';',
     ),
 
     impl: $ => seq(
       repeat($.attribute),
       'impl',
-      $.identifier,
+      field("name", $.identifier),
       optional($._wrapped_generic_parameters),
       "of",
-      $.path_expression,
+      field("trait", $.path_expression),
       choice(
-        $.impl_body,
+        field("body", $._impl_body),
         ';',
       ),
     ),
-    impl_body: $ => seq(
+    _impl_body: $ => seq(
       '{',
       repeat($._item),
       '}',
@@ -383,10 +383,10 @@ module.exports = grammar({
     struct: $ => seq(
       repeat($.attribute),
       'struct',
-      $.identifier,
+      field("name", $.identifier),
       optional($._wrapped_generic_parameters),
       '{',
-      commaSep1($.struct_member),
+      commaSep1(field("member", $._struct_member)),
       optional(','),
       '}',
     ),
@@ -394,10 +394,10 @@ module.exports = grammar({
     enum: $ => seq(
       repeat($.attribute),
       'enum',
-      $.identifier,
+      field("name", $.identifier),
       optional($._wrapped_generic_parameters),
       '{',
-      commaSep1($.struct_member), // todo: make special node for enum members
+      commaSep1(field("member", $._struct_member)), // todo: make special node for enum members
       optional(','),
       '}',
     ),
@@ -405,12 +405,12 @@ module.exports = grammar({
     use: $ => seq(
       repeat($.attribute),
       'use',
-      $.path_expression,
+      field("name", $.path_expression),
       ';',
     ),
 
-    _generic_param: $ => choice($.parenthesized_expression, $.identifier),
-    _wrapped_generic_parameters: $ => seq('<', commaSep($._generic_param), '>'),
+    generic_param: $ => choice($.parenthesized_expression, $.identifier),
+    _wrapped_generic_parameters: $ => seq('<', commaSep($.generic_param), '>'),
 
   }
 });
