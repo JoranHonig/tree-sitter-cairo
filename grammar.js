@@ -8,14 +8,14 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$._expression, $.struct_ctor_call_expression],
-    [$._path_segment, $._pattern_identifier],
+    [$._path_segment, $.pattern_identifier],
     [$.parenthesized_expression, $.tuple_expression],
     [$.function_call_expression, $._expression], // function calls start with expressions
     [$._expression, $.expression_statement], // matches don't need a semicolon but are still expressions
     [$.simple_path_segment, $.generic_argument_path_segment], // path segments can be identifiers or identifiers with generic arguments
     [$.return_statement, $.expression_statement],
     [$._generic_arguments, $.binary_expression],
-    [$._pattern_identifier, $.path_expression], // pattern identifiers can be single identifiers and paths too.
+    [$.pattern_identifier, $.path_expression], // pattern identifiers can be single identifiers and paths too.
   ],
 
   rules: {
@@ -113,7 +113,7 @@ module.exports = grammar({
     // Function call expressions
     _arguments: $ => seq(commaSep1(field("argument", $._expression)), optional(',')),
     function_call_expression: $ => seq(
-      field("function", $.path_expression), 
+      field("name", $.path_expression), 
       '(', 
       optional($._arguments), 
       ')'
@@ -121,7 +121,7 @@ module.exports = grammar({
 
     // Struct ctor call expressions
     struct_ctor_call_expression: $ => seq(
-      field("struct", $.path_expression), 
+      field("name", $.path_expression), 
       '{', 
       optional($._struct_argument_list), 
       '}'
@@ -173,43 +173,60 @@ module.exports = grammar({
     // == Patterns == (used by match arms)
     _pattern: $ => choice(
       "_",
-      $._pattern_literal,
-      $._pattern_identifier,
-      $._pattern_struct,
-      $._pattern_tuple,
-      $._pattern_enum,
+      $.pattern_literal,
+      $.pattern_identifier,
+      $.pattern_struct,
+      $.pattern_tuple,
+      $.pattern_enum,
       $.path_expression,
     ),
 
-    _pattern_literal: $ => $.literal_expression,
-    _pattern_identifier: $ => prec(1, seq(optional($._modifier_list), $.identifier)),
-    _modifier_list: $ => commaSep1($._modifier),
-    _modifier: $ => choice(
+    pattern_literal: $ => $.literal_expression,
+    pattern_identifier: $ => prec(1, seq(optional($._modifier_list), field("name", $.identifier))),
+    _modifier_list: $ => commaSep1($.modifier),
+
+    modifier: $ => choice(
       'mut',
       '&',
     ),
 
-    _pattern_struct: $ => seq($.path_expression, '{', optional($._struct_pattern_list), '}'),
-    _struct_pattern_list: $ => commaSep1($._struct_pattern),
-    _struct_pattern: $ => seq(
-      $.identifier,
+    pattern_struct: $ => seq(
+      field("name", $.path_expression), 
+      '{', 
+      optional($._struct_pattern_list), 
+      '}'
+    ),
+
+    // TODO: this definition is wrong, waiting for more docs
+    _struct_pattern_list: $ => commaSep1($.struct_pattern),
+    struct_pattern: $ => seq(
+      field("name", $.identifier),
       "with",
       "..",
     ),
     _struct_patter_with: $ => seq(
-      $.identifier,
+      field("name", $.identifier),
       ':',
-      $._pattern,
+      field("value", $._pattern),
     ),
 
-    _pattern_tuple: $ => seq('(', commaSep($._pattern), ')'),
+    pattern_tuple: $ => seq(
+      '(', 
+      commaSep(field("member", $._pattern)),
+      ')'
+    ),
 
-    _pattern_enum: $ => seq($.path_expression, '(', commaSep($._pattern), ')'),
+    pattern_enum: $ => seq(
+      field("name", $.path_expression), 
+      '(', 
+      commaSep(field("member", $._pattern)),
+      ')'
+    ),
 
     // == Type Clauses ==
-    type_clause: $ => prec(1, seq(':', $._expression)),
+    type_clause: $ => prec(1, seq(':', field("type", $._expression))),
 
-    return_type_clause: $ => seq('->', $._expression),
+    return_type_clause: $ => seq('->', field("type", $._expression)),
 
     // == Statements ==
     _statement_list: $ => repeat($._statement),
