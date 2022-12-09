@@ -250,3 +250,109 @@ func fib_inner(a: felt, b: felt, remaining: felt, mut arr: Array::<felt>) -> Arr
             (literal_expression))
           (path_expression
             (identifier)))))))
+
+================================================================================
+fib_box.cairo
+================================================================================
+
+// Calculates fib, but all variables are boxes.
+func fib(a: Box::<felt>, b: Box::<felt>, n: Box::<felt>) -> Box::<felt> {
+    let unboxed_n = unbox::<felt>(n);
+    if unboxed_n == 0 {
+        a
+    } else {
+        fib(
+            b,
+            into_box::<felt>(unbox::<felt>(a) + unbox::<felt>(b)),
+            into_box::<felt>(unboxed_n - 1),
+        )
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (free_function
+    (identifier)
+    (function_signature
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier))))
+      (return_type_clause
+        (path_expression
+          (identifier)
+          (path_expression
+            (identifier)))))
+    (block_expression
+      (let_statement
+        (path_expression
+          (identifier))
+        (function_call_expression
+          (path_expression
+            (identifier)
+            (path_expression
+              (identifier)))
+          (path_expression
+            (identifier))))
+      (return_statement
+        (if_expression
+          (binary_expression
+            (path_expression
+              (identifier))
+            (literal_expression))
+          (block_expression
+            (return_statement
+              (path_expression
+                (identifier))))
+          (block_expression
+            (return_statement
+              (function_call_expression
+                (path_expression
+                  (identifier))
+                (path_expression
+                  (identifier))
+                (function_call_expression
+                  (path_expression
+                    (identifier)
+                    (path_expression
+                      (identifier)))
+                  (binary_expression
+                    (function_call_expression
+                      (path_expression
+                        (identifier)
+                        (path_expression
+                          (identifier)))
+                      (path_expression
+                        (identifier)))
+                    (function_call_expression
+                      (path_expression
+                        (identifier)
+                        (path_expression
+                          (identifier)))
+                      (path_expression
+                        (identifier)))))
+                (function_call_expression
+                  (path_expression
+                    (identifier)
+                    (path_expression
+                      (identifier)))
+                  (binary_expression
+                    (path_expression
+                      (identifier))
+                    (literal_expression)))))))))))
