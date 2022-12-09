@@ -34,29 +34,27 @@ func foo(x: Option::<(felt, felt)>) -> Option::<felt> {
                   (identifier)))))))))
   (free_function
     (identifier)
-    (function_signature
-      (identifier)
-      (type_clause
+    (identifier)
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
+        (tuple_expression
+          (path_expression
+            (simple_path_segment
+              (identifier)))
+          (path_expression
+            (simple_path_segment
+              (identifier))))))
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (tuple_expression
-              (path_expression
-                (simple_path_segment
-                  (identifier)))
-              (path_expression
-                (simple_path_segment
-                  (identifier)))))))
-      (return_type_clause
-        (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier)))))))
+          (simple_path_segment
+            (identifier)))))
     (block_expression
       (let_statement
-        (identifier)
+        (pattern_identifier
+          (identifier))
         (path_expression
           (simple_path_segment
             (identifier))))
@@ -66,16 +64,21 @@ func foo(x: Option::<(felt, felt)>) -> Option::<felt> {
             (simple_path_segment
               (identifier)))
           (match_arm
-            (path_expression
-              (simple_path_segment
-                (identifier))
-              (simple_path_segment
+            (pattern_enum
+              (path_expression
+                (simple_path_segment
+                  (identifier))
+                (simple_path_segment
+                  (identifier)))
+              (pattern_identifier
                 (identifier)))
-            (identifier)
             (block_expression
               (let_statement
-                (identifier)
-                (identifier)
+                (pattern_tuple
+                  (pattern_identifier
+                    (identifier))
+                  (pattern_identifier
+                    (identifier)))
                 (path_expression
                   (simple_path_segment
                     (identifier))))
@@ -112,26 +115,21 @@ func fib(a: felt, b: felt, n: felt) -> felt {
   (comment)
   (free_function
     (identifier)
-    (function_signature
-      (identifier)
-      (type_clause
-        (path_expression
-          (simple_path_segment
-            (identifier))))
-      (identifier)
-      (type_clause
-        (path_expression
-          (simple_path_segment
-            (identifier))))
-      (identifier)
-      (type_clause
-        (path_expression
-          (simple_path_segment
-            (identifier))))
-      (return_type_clause
-        (path_expression
-          (simple_path_segment
-            (identifier)))))
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (path_expression
+      (simple_path_segment
+        (identifier)))
     (block_expression
       (expression_statement
         (match_expression
@@ -139,8 +137,9 @@ func fib(a: felt, b: felt, n: felt) -> felt {
             (simple_path_segment
               (identifier)))
           (match_arm
-            (literal_expression
-              (integer_literal))
+            (pattern_literal
+              (literal_expression
+                (integer_literal)))
             (path_expression
               (simple_path_segment
                 (identifier))))
@@ -190,19 +189,16 @@ func fib_inner(a: felt, b: felt, remaining: felt, mut arr: Array::<felt>) -> Arr
   (comment)
   (free_function
     (identifier)
-    (function_signature
-      (identifier)
-      (type_clause
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
           (simple_path_segment
-            (identifier))))
-      (return_type_clause
-        (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier)))))))
+            (identifier)))))
     (block_expression
       (return_statement
         (function_call_expression
@@ -225,37 +221,32 @@ func fib_inner(a: felt, b: felt, remaining: felt, mut arr: Array::<felt>) -> Arr
                     (identifier))))))))))
   (free_function
     (identifier)
-    (function_signature
-      (identifier)
-      (type_clause
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (identifier)
+    (path_expression
+      (simple_path_segment
+        (identifier)))
+    (modifier)
+    (identifier)
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
           (simple_path_segment
-            (identifier))))
-      (identifier)
-      (type_clause
+            (identifier)))))
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
           (simple_path_segment
-            (identifier))))
-      (identifier)
-      (type_clause
-        (path_expression
-          (simple_path_segment
-            (identifier))))
-      (identifier)
-      (type_clause
-        (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier))))))
-      (return_type_clause
-        (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier)))))))
+            (identifier)))))
     (block_expression
       (return_statement
         (if_expression
@@ -333,41 +324,37 @@ func fib(a: Box::<felt>, b: Box::<felt>, n: Box::<felt>) -> Box::<felt> {
   (comment)
   (free_function
     (identifier)
-    (function_signature
-      (identifier)
-      (type_clause
+    (identifier)
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier))))))
-      (identifier)
-      (type_clause
+          (simple_path_segment
+            (identifier)))))
+    (identifier)
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier))))))
-      (identifier)
-      (type_clause
+          (simple_path_segment
+            (identifier)))))
+    (identifier)
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier))))))
-      (return_type_clause
+          (simple_path_segment
+            (identifier)))))
+    (path_expression
+      (generic_argument_path_segment
+        (identifier)
         (path_expression
-          (generic_argument_path_segment
-            (identifier)
-            (path_expression
-              (simple_path_segment
-                (identifier)))))))
+          (simple_path_segment
+            (identifier)))))
     (block_expression
       (let_statement
-        (identifier)
+        (pattern_identifier
+          (identifier))
         (function_call_expression
           (path_expression
             (generic_argument_path_segment
