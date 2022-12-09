@@ -47,6 +47,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "if_expression",
           "named": true
         },
@@ -64,6 +68,10 @@
         },
         {
           "type": "path_expression",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
           "named": true
         },
         {
@@ -110,6 +118,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -127,6 +139,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -238,6 +254,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -255,6 +275,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -345,6 +369,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "if_expression",
           "named": true
         },
@@ -362,6 +390,10 @@
         },
         {
           "type": "path_expression",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
           "named": true
         },
         {
@@ -436,6 +468,10 @@
             "named": true
           },
           {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
             "type": "struct_ctor_call_expression",
             "named": true
           },
@@ -484,6 +520,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -501,6 +541,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -562,6 +606,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -579,6 +627,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -626,6 +678,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "if_expression",
           "named": true
         },
@@ -643,6 +699,10 @@
         },
         {
           "type": "path_expression",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
           "named": true
         },
         {
@@ -674,94 +734,12 @@
           }
         ]
       },
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "_",
-            "named": false
-          },
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
       "parameter": {
         "multiple": true,
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": ":",
-            "named": false
-          },
-          {
-            "type": "_",
-            "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "block_expression",
-            "named": true
-          },
-          {
-            "type": "boolean_expression",
-            "named": true
-          },
-          {
-            "type": "error_propagation_expression",
-            "named": true
-          },
-          {
-            "type": "function_call_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if_expression",
-            "named": true
-          },
-          {
-            "type": "literal_expression",
-            "named": true
-          },
-          {
-            "type": "match_expression",
-            "named": true
-          },
-          {
-            "type": "modifier",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "path_expression",
-            "named": true
-          },
-          {
-            "type": "struct_ctor_call_expression",
-            "named": true
-          },
-          {
-            "type": "tuple_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
+            "type": "param",
             "named": true
           }
         ]
@@ -791,61 +769,7 @@
             "named": true
           },
           {
-            "type": "if_expression",
-            "named": true
-          },
-          {
-            "type": "literal_expression",
-            "named": true
-          },
-          {
-            "type": "match_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "path_expression",
-            "named": true
-          },
-          {
-            "type": "struct_ctor_call_expression",
-            "named": true
-          },
-          {
-            "type": "tuple_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "block_expression",
-            "named": true
-          },
-          {
-            "type": "boolean_expression",
-            "named": true
-          },
-          {
-            "type": "error_propagation_expression",
-            "named": true
-          },
-          {
-            "type": "function_call_expression",
+            "type": "identifier",
             "named": true
           },
           {
@@ -866,6 +790,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -957,13 +885,9 @@
         ]
       },
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "_",
-            "named": false
-          },
           {
             "type": "identifier",
             "named": true
@@ -975,75 +899,7 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": ":",
-            "named": false
-          },
-          {
-            "type": "_",
-            "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "block_expression",
-            "named": true
-          },
-          {
-            "type": "boolean_expression",
-            "named": true
-          },
-          {
-            "type": "error_propagation_expression",
-            "named": true
-          },
-          {
-            "type": "function_call_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if_expression",
-            "named": true
-          },
-          {
-            "type": "literal_expression",
-            "named": true
-          },
-          {
-            "type": "match_expression",
-            "named": true
-          },
-          {
-            "type": "modifier",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "path_expression",
-            "named": true
-          },
-          {
-            "type": "struct_ctor_call_expression",
-            "named": true
-          },
-          {
-            "type": "tuple_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
+            "type": "param",
             "named": true
           }
         ]
@@ -1073,61 +929,7 @@
             "named": true
           },
           {
-            "type": "if_expression",
-            "named": true
-          },
-          {
-            "type": "literal_expression",
-            "named": true
-          },
-          {
-            "type": "match_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "path_expression",
-            "named": true
-          },
-          {
-            "type": "struct_ctor_call_expression",
-            "named": true
-          },
-          {
-            "type": "tuple_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "block_expression",
-            "named": true
-          },
-          {
-            "type": "boolean_expression",
-            "named": true
-          },
-          {
-            "type": "error_propagation_expression",
-            "named": true
-          },
-          {
-            "type": "function_call_expression",
+            "type": "identifier",
             "named": true
           },
           {
@@ -1148,6 +950,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1227,6 +1033,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1244,6 +1054,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1313,6 +1127,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1330,6 +1148,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1420,6 +1242,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1437,6 +1263,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1594,6 +1424,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1611,6 +1445,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1692,6 +1530,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1709,6 +1551,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1750,6 +1596,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1767,6 +1617,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1863,6 +1717,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1880,6 +1738,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1927,6 +1789,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -1944,6 +1810,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -1980,17 +1850,120 @@
   {
     "type": "module",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "attribute",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "param",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "block_expression",
+            "named": true
+          },
+          {
+            "type": "boolean_expression",
+            "named": true
+          },
+          {
+            "type": "error_propagation_expression",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if_expression",
+            "named": true
+          },
+          {
+            "type": "literal_expression",
+            "named": true
+          },
+          {
+            "type": "match_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "struct_ctor_call_expression",
+            "named": true
+          },
+          {
+            "type": "tuple_expression",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
         {
-          "type": "identifier",
+          "type": "modifier",
           "named": true
         }
       ]
@@ -2025,6 +1998,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -2042,6 +2019,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -2237,6 +2218,11 @@
     }
   },
   {
+    "type": "primitive_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "return_statement",
     "named": true,
     "fields": {
@@ -2265,6 +2251,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -2282,6 +2272,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -2355,6 +2349,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -2372,6 +2370,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -2494,6 +2496,10 @@
             "named": true
           },
           {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
             "type": "struct_ctor_call_expression",
             "named": true
           },
@@ -2542,6 +2548,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -2559,6 +2569,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -2620,6 +2634,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -2637,6 +2655,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -2726,10 +2748,6 @@
             "named": false
           },
           {
-            "type": ":",
-            "named": false
-          },
-          {
             "type": ";",
             "named": false
           },
@@ -2739,10 +2757,6 @@
           },
           {
             "type": ">",
-            "named": false
-          },
-          {
-            "type": "_",
             "named": false
           },
           {
@@ -2802,7 +2816,7 @@
             "named": true
           },
           {
-            "type": "modifier",
+            "type": "param",
             "named": true
           },
           {
@@ -2811,6 +2825,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -2850,10 +2868,6 @@
         "required": true,
         "types": [
           {
-            "type": "_",
-            "named": false
-          },
-          {
             "type": "identifier",
             "named": true
           }
@@ -2864,75 +2878,7 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": ":",
-            "named": false
-          },
-          {
-            "type": "_",
-            "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "block_expression",
-            "named": true
-          },
-          {
-            "type": "boolean_expression",
-            "named": true
-          },
-          {
-            "type": "error_propagation_expression",
-            "named": true
-          },
-          {
-            "type": "function_call_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if_expression",
-            "named": true
-          },
-          {
-            "type": "literal_expression",
-            "named": true
-          },
-          {
-            "type": "match_expression",
-            "named": true
-          },
-          {
-            "type": "modifier",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "path_expression",
-            "named": true
-          },
-          {
-            "type": "struct_ctor_call_expression",
-            "named": true
-          },
-          {
-            "type": "tuple_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
+            "type": "param",
             "named": true
           }
         ]
@@ -2962,61 +2908,7 @@
             "named": true
           },
           {
-            "type": "if_expression",
-            "named": true
-          },
-          {
-            "type": "literal_expression",
-            "named": true
-          },
-          {
-            "type": "match_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "path_expression",
-            "named": true
-          },
-          {
-            "type": "struct_ctor_call_expression",
-            "named": true
-          },
-          {
-            "type": "tuple_expression",
-            "named": true
-          },
-          {
-            "type": "unary_expression",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "block_expression",
-            "named": true
-          },
-          {
-            "type": "boolean_expression",
-            "named": true
-          },
-          {
-            "type": "error_propagation_expression",
-            "named": true
-          },
-          {
-            "type": "function_call_expression",
+            "type": "identifier",
             "named": true
           },
           {
@@ -3037,6 +2929,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -3098,6 +2994,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -3115,6 +3015,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -3176,6 +3080,10 @@
             "named": true
           },
           {
+            "type": "identifier",
+            "named": true
+          },
+          {
             "type": "if_expression",
             "named": true
           },
@@ -3193,6 +3101,10 @@
           },
           {
             "type": "path_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
             "named": true
           },
           {
@@ -3358,6 +3270,10 @@
     "named": false
   },
   {
+    "type": "bool",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -3375,6 +3291,10 @@
   },
   {
     "type": "false",
+    "named": false
+  },
+  {
+    "type": "felt",
     "named": false
   },
   {

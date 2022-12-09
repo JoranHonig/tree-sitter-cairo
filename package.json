@@ -25,6 +25,16 @@
     "tree-sitter": "^0.20.0"
   },
   "dependencies": {
-    "nan": "^2.15.0"
-  }
+    "nan": "^2.15.0",
+    "tree-sitter-cli": "^0.20.7"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.cairo",
+      "file-types": [
+        "cairo"
+      ],
+      "injection-regex": "^(cairo)$"
+    }
+  ]
 }

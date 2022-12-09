@@ -17,6 +17,14 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_simple_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "primitive_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "path_expression"
         },
         {
@@ -68,6 +76,31 @@
           "name": "error_propagation_expression"
         }
       ]
+    },
+    "_simple_identifier": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      }
+    },
+    "primitive_type": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "felt"
+          },
+          {
+            "type": "STRING",
+            "value": "bool"
+          }
+        ]
+      }
     },
     "path_expression": {
       "type": "PREC_RIGHT",
@@ -1396,7 +1429,7 @@
         }
       ]
     },
-    "_param": {
+    "param": {
       "type": "SEQ",
       "members": [
         {
@@ -1518,7 +1551,7 @@
                   "name": "parameter",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_param"
+                    "name": "param"
                   }
                 },
                 {
@@ -1535,7 +1568,7 @@
                         "name": "parameter",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "_param"
+                          "name": "param"
                         }
                       }
                     ]
@@ -1667,8 +1700,12 @@
           "value": "mod"
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "STRING",
@@ -2402,6 +2439,10 @@
     ],
     [
       "pattern_identifier",
+      "path_expression"
+    ],
+    [
+      "identifier",
       "path_expression"
     ]
   ],

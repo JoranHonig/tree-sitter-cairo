@@ -16,6 +16,7 @@ module.exports = grammar({
     [$.return_statement, $.expression_statement],
     [$._generic_arguments, $.binary_expression],
     [$.pattern_identifier, $.path_expression], // pattern identifiers can be single identifiers and paths too.
+    [$.identifier, $.path_expression], // identifiers can be single identifiers and paths too.
   ],
 
   rules: {
@@ -25,6 +26,8 @@ module.exports = grammar({
 
     // == Expressions ==
     _expression: $ => choice(
+      $._simple_identifier,
+      $.primitive_type,
       $.path_expression,
       $.literal_expression,
       $.boolean_expression,
@@ -39,6 +42,12 @@ module.exports = grammar({
       $.if_expression,
       $.error_propagation_expression,
     ),
+    _simple_identifier: $ => prec(1, $.identifier),
+
+    primitive_type: $ => prec(1, choice(
+      "felt",
+      "bool",
+    )),
 
     // Path Expression
     path_expression: $ => prec.right(charSep1($._path_segment, "::")),
@@ -254,7 +263,7 @@ module.exports = grammar({
 
     // == Functions ==
     _param_name: $ => choice("_", $.identifier),
-    _param: $ => seq(optional($._modifier_list), field("name", $._param_name), $._type_clause),
+    param: $ => seq(optional($._modifier_list), field("name", $._param_name), $._type_clause),
 
     _implicits_clause: $ => seq(
       'implicits', 
@@ -270,7 +279,7 @@ module.exports = grammar({
 
     _function_signature: $ => seq(
       '(',
-      commaSep(field("parameter", $._param)),
+      commaSep(field("parameter", $.param)),
       ')',
       optional($._return__type_clause),
       optional($._implicits_clause),
@@ -298,7 +307,7 @@ module.exports = grammar({
     module: $ => seq(
       repeat($.attribute),
       'mod',
-      $.identifier,
+      field("name", $.identifier),
       ';',
     ),
 
