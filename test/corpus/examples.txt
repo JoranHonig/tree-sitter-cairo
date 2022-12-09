@@ -20,63 +20,78 @@ func foo(x: Option::<(felt, felt)>) -> Option::<felt> {
   (impl
     (identifier)
     (path_expression
-      (identifier)
-      (path_expression
+      (generic_argument_path_segment
         (identifier)
-        (tuple_expression
-          (path_expression
-            (identifier))
-          (path_expression
-            (identifier))))))
+        (path_expression
+          (generic_argument_path_segment
+            (identifier)
+            (tuple_expression
+              (path_expression
+                (simple_path_segment
+                  (identifier)))
+              (path_expression
+                (simple_path_segment
+                  (identifier)))))))))
   (free_function
     (identifier)
     (function_signature
       (identifier)
       (type_clause
         (path_expression
-          (identifier)
-          (tuple_expression
-            (path_expression
-              (identifier))
-            (path_expression
-              (identifier)))))
+          (generic_argument_path_segment
+            (identifier)
+            (tuple_expression
+              (path_expression
+                (simple_path_segment
+                  (identifier)))
+              (path_expression
+                (simple_path_segment
+                  (identifier)))))))
       (return_type_clause
         (path_expression
-          (identifier)
-          (path_expression
-            (identifier)))))
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier)))))))
     (block_expression
       (let_statement
+        (identifier)
         (path_expression
-          (identifier))
-        (path_expression
-          (identifier)))
+          (simple_path_segment
+            (identifier))))
       (expression_statement
         (match_expression
           (path_expression
-            (identifier))
+            (simple_path_segment
+              (identifier)))
           (match_arm
             (path_expression
-              (identifier)
-              (identifier))
-            (path_expression
-              (identifier))
+              (simple_path_segment
+                (identifier))
+              (simple_path_segment
+                (identifier)))
+            (identifier)
             (block_expression
               (let_statement
-                (path_expression
-                  (identifier))
+                (identifier)
                 (identifier)
                 (path_expression
-                  (identifier)))
+                  (simple_path_segment
+                    (identifier))))
               (return_statement
                 (function_call_expression
                   (path_expression
-                    (identifier)
-                    (path_expression
-                      (identifier))
-                    (identifier))
+                    (generic_argument_path_segment
+                      (identifier)
+                      (path_expression
+                        (simple_path_segment
+                          (identifier))))
+                    (simple_path_segment
+                      (identifier)))
                   (path_expression
-                    (identifier)))))))))))
+                    (simple_path_segment
+                      (identifier))))))))))))
 
 ================================================================================
 fib.cairo
@@ -101,42 +116,55 @@ func fib(a: felt, b: felt, n: felt) -> felt {
       (identifier)
       (type_clause
         (path_expression
-          (identifier)))
+          (simple_path_segment
+            (identifier))))
       (identifier)
       (type_clause
         (path_expression
-          (identifier)))
+          (simple_path_segment
+            (identifier))))
       (identifier)
       (type_clause
         (path_expression
-          (identifier)))
+          (simple_path_segment
+            (identifier))))
       (return_type_clause
         (path_expression
-          (identifier))))
+          (simple_path_segment
+            (identifier)))))
     (block_expression
       (expression_statement
         (match_expression
           (path_expression
-            (identifier))
-          (match_arm
-            (literal_expression)
-            (path_expression
+            (simple_path_segment
               (identifier)))
+          (match_arm
+            (literal_expression
+              (integer_literal))
+            (path_expression
+              (simple_path_segment
+                (identifier))))
           (match_arm
             (function_call_expression
               (path_expression
-                (identifier))
+                (simple_path_segment
+                  (identifier)))
               (path_expression
-                (identifier))
-              (binary_expression
-                (path_expression
-                  (identifier))
-                (path_expression
+                (simple_path_segment
                   (identifier)))
               (binary_expression
                 (path_expression
-                  (identifier))
-                (literal_expression)))))))))
+                  (simple_path_segment
+                    (identifier)))
+                (path_expression
+                  (simple_path_segment
+                    (identifier))))
+              (binary_expression
+                (path_expression
+                  (simple_path_segment
+                    (identifier)))
+                (literal_expression
+                  (integer_literal))))))))))
 
 ================================================================================
 fib_array.cairo
@@ -166,90 +194,120 @@ func fib_inner(a: felt, b: felt, remaining: felt, mut arr: Array::<felt>) -> Arr
       (identifier)
       (type_clause
         (path_expression
-          (identifier)))
+          (simple_path_segment
+            (identifier))))
       (return_type_clause
         (path_expression
-          (identifier)
-          (path_expression
-            (identifier)))))
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier)))))))
     (block_expression
       (return_statement
         (function_call_expression
           (path_expression
-            (identifier))
-          (literal_expression)
-          (literal_expression)
+            (simple_path_segment
+              (identifier)))
+          (literal_expression
+            (integer_literal))
+          (literal_expression
+            (integer_literal))
           (path_expression
-            (identifier))
+            (simple_path_segment
+              (identifier)))
           (function_call_expression
             (path_expression
-              (identifier)
-              (path_expression
-                (identifier))))))))
+              (generic_argument_path_segment
+                (identifier)
+                (path_expression
+                  (simple_path_segment
+                    (identifier))))))))))
   (free_function
     (identifier)
     (function_signature
       (identifier)
       (type_clause
         (path_expression
-          (identifier)))
-      (identifier)
-      (type_clause
-        (path_expression
-          (identifier)))
-      (identifier)
-      (type_clause
-        (path_expression
-          (identifier)))
-      (identifier)
-      (type_clause
-        (path_expression
-          (identifier)
-          (path_expression
+          (simple_path_segment
             (identifier))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (simple_path_segment
+            (identifier))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (simple_path_segment
+            (identifier))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier))))))
       (return_type_clause
         (path_expression
-          (identifier)
-          (path_expression
-            (identifier)))))
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier)))))))
     (block_expression
       (return_statement
         (if_expression
           (binary_expression
             (path_expression
-              (identifier))
-            (literal_expression))
+              (simple_path_segment
+                (identifier)))
+            (literal_expression
+              (integer_literal)))
           (block_expression
             (return_statement
               (path_expression
-                (identifier))))))
+                (simple_path_segment
+                  (identifier)))))))
       (expression_statement
         (function_call_expression
           (path_expression
-            (identifier)
-            (path_expression
+            (generic_argument_path_segment
+              (identifier)
+              (path_expression
+                (simple_path_segment
+                  (identifier)))))
+          (path_expression
+            (simple_path_segment
               (identifier)))
           (path_expression
-            (identifier))
-          (path_expression
-            (identifier))))
+            (simple_path_segment
+              (identifier)))))
       (return_statement
         (function_call_expression
           (path_expression
-            (identifier))
+            (simple_path_segment
+              (identifier)))
           (path_expression
-            (identifier))
-          (binary_expression
-            (path_expression
-              (identifier))
-            (path_expression
+            (simple_path_segment
               (identifier)))
           (binary_expression
             (path_expression
-              (identifier))
-            (literal_expression))
+              (simple_path_segment
+                (identifier)))
+            (path_expression
+              (simple_path_segment
+                (identifier))))
+          (binary_expression
+            (path_expression
+              (simple_path_segment
+                (identifier)))
+            (literal_expression
+              (integer_literal)))
           (path_expression
-            (identifier)))))))
+            (simple_path_segment
+              (identifier))))))))
 
 ================================================================================
 fib_box.cairo
@@ -279,80 +337,108 @@ func fib(a: Box::<felt>, b: Box::<felt>, n: Box::<felt>) -> Box::<felt> {
       (identifier)
       (type_clause
         (path_expression
-          (identifier)
-          (path_expression
-            (identifier))))
-      (identifier)
-      (type_clause
-        (path_expression
-          (identifier)
-          (path_expression
-            (identifier))))
-      (identifier)
-      (type_clause
-        (path_expression
-          (identifier)
-          (path_expression
-            (identifier))))
-      (return_type_clause
-        (path_expression
-          (identifier)
-          (path_expression
-            (identifier)))))
-    (block_expression
-      (let_statement
-        (path_expression
-          (identifier))
-        (function_call_expression
-          (path_expression
+          (generic_argument_path_segment
             (identifier)
             (path_expression
-              (identifier)))
+              (simple_path_segment
+                (identifier))))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier))))))
+      (identifier)
+      (type_clause
+        (path_expression
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier))))))
+      (return_type_clause
+        (path_expression
+          (generic_argument_path_segment
+            (identifier)
+            (path_expression
+              (simple_path_segment
+                (identifier)))))))
+    (block_expression
+      (let_statement
+        (identifier)
+        (function_call_expression
           (path_expression
-            (identifier))))
+            (generic_argument_path_segment
+              (identifier)
+              (path_expression
+                (simple_path_segment
+                  (identifier)))))
+          (path_expression
+            (simple_path_segment
+              (identifier)))))
       (return_statement
         (if_expression
           (binary_expression
             (path_expression
-              (identifier))
-            (literal_expression))
+              (simple_path_segment
+                (identifier)))
+            (literal_expression
+              (integer_literal)))
           (block_expression
             (return_statement
               (path_expression
-                (identifier))))
-          (block_expression
-            (return_statement
-              (function_call_expression
-                (path_expression
-                  (identifier))
-                (path_expression
-                  (identifier))
+                (simple_path_segment
+                  (identifier)))))
+          (else_clause
+            (block_expression
+              (return_statement
                 (function_call_expression
                   (path_expression
-                    (identifier)
-                    (path_expression
+                    (simple_path_segment
                       (identifier)))
-                  (binary_expression
-                    (function_call_expression
-                      (path_expression
-                        (identifier)
-                        (path_expression
-                          (identifier)))
-                      (path_expression
-                        (identifier)))
-                    (function_call_expression
-                      (path_expression
-                        (identifier)
-                        (path_expression
-                          (identifier)))
-                      (path_expression
-                        (identifier)))))
-                (function_call_expression
                   (path_expression
-                    (identifier)
-                    (path_expression
+                    (simple_path_segment
                       (identifier)))
-                  (binary_expression
+                  (function_call_expression
                     (path_expression
-                      (identifier))
-                    (literal_expression)))))))))))
+                      (generic_argument_path_segment
+                        (identifier)
+                        (path_expression
+                          (simple_path_segment
+                            (identifier)))))
+                    (binary_expression
+                      (function_call_expression
+                        (path_expression
+                          (generic_argument_path_segment
+                            (identifier)
+                            (path_expression
+                              (simple_path_segment
+                                (identifier)))))
+                        (path_expression
+                          (simple_path_segment
+                            (identifier))))
+                      (function_call_expression
+                        (path_expression
+                          (generic_argument_path_segment
+                            (identifier)
+                            (path_expression
+                              (simple_path_segment
+                                (identifier)))))
+                        (path_expression
+                          (simple_path_segment
+                            (identifier))))))
+                  (function_call_expression
+                    (path_expression
+                      (generic_argument_path_segment
+                        (identifier)
+                        (path_expression
+                          (simple_path_segment
+                            (identifier)))))
+                    (binary_expression
+                      (path_expression
+                        (simple_path_segment
+                          (identifier)))
+                      (literal_expression
+                        (integer_literal)))))))))))))

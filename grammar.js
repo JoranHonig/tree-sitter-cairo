@@ -12,9 +12,10 @@ module.exports = grammar({
     [$.parenthesized_expression, $.tuple_expression],
     [$.function_call_expression, $._expression], // function calls start with expressions
     [$._expression, $.expression_statement], // matches don't need a semicolon but are still expressions
-    [$._path_segment], // path segments can be identifiers or identifiers with generic arguments
+    [$.simple_path_segment, $.generic_argument_path_segment], // path segments can be identifiers or identifiers with generic arguments
     [$.return_statement, $.expression_statement],
-    [$._generic_arguments, $.binary_expression]
+    [$._generic_arguments, $.binary_expression],
+    [$._pattern_identifier, $.path_expression], // pattern identifiers can be single identifiers and paths too.
   ],
 
   rules: {
@@ -42,32 +43,50 @@ module.exports = grammar({
     // Path Expression
     path_expression: $ => prec.right(charSep1($._path_segment, "::")),
     _path_segment: $ => choice(
-      $.identifier,
-      seq($.identifier, "::", $._generic_arguments)
+      $.simple_path_segment,
+      $.generic_argument_path_segment,
     ),
+    simple_path_segment: $ => seq(
+      field("name", $.identifier),
+    ),
+    generic_argument_path_segment: $ => seq(
+      field("name", $.identifier), 
+      "::", 
+      field("generic_argument", $._generic_arguments)
+    ), 
 
     _generic_arguments: $ => prec.right(10, seq('<', commaSep1($._expression), '>')),
     
-    // Boolean expressions
+    // Boolean expressions (separate from literals to adhere to cairo's compiler)
     boolean_expression: $ => choice( 'true', 'false' ),
 
     // Literal expressions
     literal_expression: $ => choice(
-      /[0-9]+/,
+      $.integer_literal,
     ),
 
+    integer_literal: $ => /[0-9]+/,
+
     // Parenthesized expression
-    parenthesized_expression: $ => seq('(', $._expression, ')'),
+    parenthesized_expression: $ => seq('(', field("expression", $._expression), ')'),
 
     // Unary expressions
-    unary_expression: $ => prec.left(seq($._unary_operator, $._expression)),
+    unary_expression: $ => prec.left(seq(
+      field("operator", $._unary_operator), 
+      field("rhs", $._expression)
+    )),
+
     _unary_operator: $ => choice(
       '!',
       '-',
     ),
 
     // Binary expressions
-    binary_expression: $ => prec.left(seq($._expression, $._binary_operator, $._expression)),
+    binary_expression: $ => prec.left(seq(
+      field("lhs", $._expression), 
+      field("operator", $._binary_operator), 
+      field("rhs", $._expression)
+    )),
 
     _binary_operator: $ => choice(
       '.',
@@ -89,49 +108,67 @@ module.exports = grammar({
     ),
 
     // Tuple expressions
-    tuple_expression: $ => seq('(', commaSep($._expression), ')'),
+    tuple_expression: $ => seq('(', commaSep(field("member", $._expression)), ')'),
 
     // Function call expressions
-    _arguments: $ => seq($._expression, repeat(seq(',', $._expression)), optional(',')),
-    function_call_expression: $ => seq($.path_expression, '(', optional($._arguments), ')'),
+    _arguments: $ => seq(commaSep1(field("argument", $._expression)), optional(',')),
+    function_call_expression: $ => seq(
+      field("function", $.path_expression), 
+      '(', 
+      optional($._arguments), 
+      ')'
+    ),
 
     // Struct ctor call expressions
-    struct_ctor_call_expression: $ => seq($.path_expression, '{', optional($._struct_argument_list), '}'),
-
-    _struct_argument_expression: $ => seq(':', $._expression),
-    _single_struct_argument: $ => seq($.identifier, $._struct_argument_expression),
-    _struct_argument_tail: $ => seq('..', $._expression),
-    _struct_argument: $ => choice(
-      $._single_struct_argument,
-      $._struct_argument_tail,
+    struct_ctor_call_expression: $ => seq(
+      field("struct", $.path_expression), 
+      '{', 
+      optional($._struct_argument_list), 
+      '}'
     ),
-    _struct_argument_list: $ => commaSep1($._struct_argument),
+
+    _struct_argument_expression: $ => seq(':', field("value", $._expression)),
+    single_struct_argument: $ => seq(field("name", $.identifier), $._struct_argument_expression),
+    struct_argument_tail: $ => seq('..', field("expression", $._expression)),
+    _struct_argument: $ => choice(
+      $.single_struct_argument,
+      $.struct_argument_tail,
+    ),
+    _struct_argument_list: $ => commaSep1(field("argument", $._struct_argument)),
 
     // Block expressions
     block_expression: $ => seq('{', repeat($._statement), '}'),
 
     // Match expressions
-    match_expression: $ => seq('match', $._expression, '{', seq($.match_arm, repeat(seq(',', $.match_arm)), optional(',')) , '}'),
+    match_expression: $ => seq('match', field("match_value", $._expression), '{', seq($.match_arm, repeat(seq(',', $.match_arm)), optional(',')) , '}'),
 
-    match_arm: $ => seq($._pattern, '=>', $._expression),
+    match_arm: $ => seq(
+      field("pattern", $._pattern),
+      '=>',
+      field("value", $._expression),
+    ),
 
       
     // If expressions
     if_expression: $ => seq(
       'if', 
-      $._expression, 
-      $.block_expression, 
-      optional(seq('else', 'if', $._expression, $.block_expression,)), 
-      optional(seq('else', $.block_expression))
+      field("condition", $._expression), 
+      field("consequence", $.block_expression), 
+      repeat(field("alternative", $.else_if_clause)), 
+      optional(field("alternative", $.else_clause)),
     ),
-      
+    else_if_clause: $ => seq('else', 'if', $._expression, $.block_expression),
+    else_clause: $ => seq('else', $.block_expression),
+
     // TODO: block or if
 
     // Error propagation expressions
-    error_propagation_expression: $ => seq($._expression, '?'),
+    error_propagation_expression: $ => seq(
+      field("expression", $._expression), 
+      '?'
+    ),
 
     comment: $ => token(seq('//', /.*/)),
-
 
     // == Patterns == (used by match arms)
     _pattern: $ => choice(
@@ -145,7 +182,7 @@ module.exports = grammar({
     ),
 
     _pattern_literal: $ => $.literal_expression,
-    _pattern_identifier: $ => seq(optional($._modifier_list), $.identifier),
+    _pattern_identifier: $ => prec(1, seq(optional($._modifier_list), $.identifier)),
     _modifier_list: $ => commaSep1($._modifier),
     _modifier: $ => choice(
       'mut',
